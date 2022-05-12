@@ -1,9 +1,6 @@
-import "./App.css";
-
-function App() {
+function HomePage() {
   return (
-    <div className="App">
-      {/* <header className="App-header" /> */}
+    <div className="container">
       <h1>Scroll down</h1>
       <div className="trigger">
         <div className="hand-container">
@@ -11,11 +8,9 @@ function App() {
           <div className="righthand" />
         </div>
       </div>
-      <div>
-        <p>Some stuff?</p>
-      </div>
+      <div />
     </div>
   );
 }
 
-export default App;
+export default HomePage;

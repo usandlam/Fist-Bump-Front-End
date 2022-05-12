@@ -52,17 +52,17 @@
         const tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".trigger",
-          pin: true,
+          pin: false,
           start: "top top",
-          end: "+=2000",
+          end: "+=1000",
           scrub: true,
-          markers: true,
+          markers: false,
           onLeave: () => gsap.set('.lefthand', {position:'absolute fixed'})
         }
       })
       .add('start')
-      .to(".lefthand", {xPercent: 395, duration: 1,}, 'start')
-      .to(".righthand", {xPercent: -430, duration: 1},'start') 
+      .to(".lefthand", {xPercent: 415, duration: 1,}, 'start')
+      .to(".righthand", {xPercent: -415, duration: 1},'start') 
       
       // tl.to(".lefthand", {xPercent: 395, duration: 1,})
       // tl.to(".righthand", {xPercent: -430, duration: 1},"-1")      
