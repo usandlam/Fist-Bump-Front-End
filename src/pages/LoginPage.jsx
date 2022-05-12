@@ -19,25 +19,19 @@ function LoginPage(props) {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     const requestBody = { username, password };
-
     try {
       console.log("attempting login");
       const tryLogin = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
-        cache: "no-cache",
         headers: {
           "Content-Type": "application/json",
         },
-        redirect: "follow",
-        referrerPolicy: "no-referrer",
         body: JSON.stringify(requestBody),
       });
       const response = await tryLogin.json();
       console.log("JWT token", response.authToken);
       storeToken(response.authToken);
-
       authenticateUser();
-
       navigate("/");
     } catch (error) {
       const errorDescription = error.response.message;
