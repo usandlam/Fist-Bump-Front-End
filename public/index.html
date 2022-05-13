@@ -44,29 +44,7 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
     <script>
-      window.onload = function() {
-        // gsap.set('.trigger', {xPercent:-50, yPercent:-50})
-        //gsap.set('.trigger h2', {y:'+=50'})
 
-
-        const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".trigger",
-          pin: false,
-          start: "top top",
-          end: "+=1000",
-          scrub: true,
-          markers: false,
-          onLeave: () => gsap.set('.lefthand', {position:'absolute fixed'})
-        }
-      })
-      .add('start')
-      .to(".lefthand", {xPercent: 415, duration: 1,}, 'start')
-      .to(".righthand", {xPercent: -415, duration: 1},'start') 
-      
-      // tl.to(".lefthand", {xPercent: 395, duration: 1,})
-      // tl.to(".righthand", {xPercent: -430, duration: 1},"-1")      
-    };
     </script>
   </body>
 </html>
