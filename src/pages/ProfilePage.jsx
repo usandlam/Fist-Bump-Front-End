@@ -4,7 +4,7 @@ import { AuthContext } from "../context/auth.context";
 
 const API_URL = "http://localhost:5005";
 
-function LoginPage(props) {
+function ProfilePage(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
@@ -34,41 +34,12 @@ function LoginPage(props) {
       authenticateUser();
       navigate("/");
     } catch (error) {
-      console.log(error);
       const errorDescription = error.response.message;
       setErrorMessage(errorDescription);
     }
   };
 
-  return (
-    <div className="LoginPage">
-      <h1>Login</h1>
-
-      <form onSubmit={handleLoginSubmit}>
-        <label>Username:</label>
-        <input
-          type="text"
-          name="username"
-          value={username}
-          onChange={handleUsername}
-        />
-
-        <label>Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={handlePassword}
-        />
-
-        <button type="submit">Login</button>
-      </form>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-
-      <p>Don't have an account yet?</p>
-      <Link to="/signup"> Sign Up</Link>
-    </div>
-  );
+  return <div className="LoginPage" />;
 }
 
-export default LoginPage;
+export default ProfilePage;

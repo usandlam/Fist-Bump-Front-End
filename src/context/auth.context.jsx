@@ -24,14 +24,14 @@ function AuthProviderWrapper(props) {
       // We must send the JWT token in the request's "Authorization" Headers
 
       try {
-        const verifyToken = await fetch(`${API_URL}`, {
+        const verifyToken = await fetch(`${API_URL}/auth/verify`, {
           headers: { Authorization: `Bearer ${storedToken}` },
         });
         const result = await verifyToken.json();
         // Update state variables
         setIsLoggedIn(true);
         setIsLoading(false);
-        setUser(result.data);
+        setUser(result);
       } catch (error) {
         setIsLoggedIn(false);
         setIsLoading(false);

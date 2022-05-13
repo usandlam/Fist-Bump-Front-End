@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
+import ProfilePage from "./pages/ProfilePage";
 
 import IsPrivate from "./components/IsPrivate";
 
@@ -21,6 +22,14 @@ function App() {
             <IsAnon>
               <LoginPage />
             </IsAnon>
+          }
+        />
+        <Route
+          path="/you"
+          element={
+            <IsPrivate>
+              <ProfilePage />
+            </IsPrivate>
           }
         />
       </Routes>
