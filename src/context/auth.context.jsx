@@ -32,9 +32,11 @@ function AuthProviderWrapper(props) {
           // Update state variables
           setIsLoggedIn(true);
           setIsLoading(false);
-          setUser(result);
+          setUser({
+            username: result.foundUserName,
+            userId: result.foundUserId,
+          });
         } else {
-
           throw new Error("Authorization failed");
         }
       } catch (error) {

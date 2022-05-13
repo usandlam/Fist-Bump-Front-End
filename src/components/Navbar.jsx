@@ -56,9 +56,18 @@ function Navbar() {
 
         {isLoggedIn && (
           <>
-            <button type="button" onClick={logOutUser}>
+            <button
+              type="button"
+              className="btn btn-outline-warning"
+              onClick={logOutUser}
+            >
               Logout
             </button>
+
+            <Link className="btn btn-outline-info" to="/you">
+              Profile
+            </Link>
+
             <span>Hello {user && user.username}</span>
           </>
         )}
