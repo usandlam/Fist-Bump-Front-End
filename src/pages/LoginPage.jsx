@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 
@@ -20,7 +20,7 @@ function LoginPage(props) {
     e.preventDefault();
     const requestBody = { username, password };
     try {
-      console.log("attempting login");
+      //   console.log("attempting login");
       const tryLogin = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: {
@@ -28,44 +28,64 @@ function LoginPage(props) {
         },
         body: JSON.stringify(requestBody),
       });
-      const response = await tryLogin.json();
-      console.log("JWT token", response.authToken);
-      storeToken(response.authToken);
-      authenticateUser();
-      navigate("/");
+
+      if (tryLogin.ok) {
+        const response = await tryLogin.json();
+        //   console.log("JWT token", response.authToken);
+        storeToken(response.authToken);
+        authenticateUser();
+        navigate("/");
+      } else {
+        const error = await tryLogin.json();
+        throw new Error(error.message);
+      }
     } catch (error) {
       console.log(error);
-      const errorDescription = error.response.message;
-      setErrorMessage(errorDescription);
+      setErrorMessage(error.toString());
     }
   };
 
   return (
-    <div className="LoginPage">
+    <div className="col LoginPage">
       <h1>Login</h1>
-
+      {errorMessage && (
+        <div className="alert alert-primary" role="alert">
+          {errorMessage}
+        </div>
+      )}
       <form onSubmit={handleLoginSubmit}>
-        <label>Username:</label>
-        <input
-          type="text"
-          name="username"
-          value={username}
-          onChange={handleUsername}
-        />
-
-        <label>Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={handlePassword}
-        />
-
-        <button type="submit">Login</button>
+        <div className="formGroup">
+          <label htmlFor="username">
+            Username:
+            <input
+              type="text"
+              name="username"
+              id="username"
+              value={username}
+              onChange={handleUsername}
+            />
+          </label>
+        </div>
+        <div className="formGroup">
+          <label htmlFor="password">
+            Password:
+            <input
+              type="password"
+              name="password"
+              id="password"
+              autoComplete="on"
+              value={password}
+              onChange={handlePassword}
+            />
+          </label>
+        </div>
+        <button className="btn btn-primary" type="submit">
+          Login
+        </button>
       </form>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      <p>Don't have an account yet?</p>
+      <p>Don&apos;t have an account yet?</p>
       <Link to="/signup"> Sign Up</Link>
     </div>
   );

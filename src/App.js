@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
+import SignupPage from "./pages/SignupPage";
 
 import IsPrivate from "./components/IsPrivate";
 
@@ -21,6 +22,14 @@ function App() {
           element={
             <IsAnon>
               <LoginPage />
+            </IsAnon>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <IsAnon>
+              <SignupPage />
             </IsAnon>
           }
         />

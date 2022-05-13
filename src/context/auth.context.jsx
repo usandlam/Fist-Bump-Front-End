@@ -27,12 +27,18 @@ function AuthProviderWrapper(props) {
         const verifyToken = await fetch(`${API_URL}/auth/verify`, {
           headers: { Authorization: `Bearer ${storedToken}` },
         });
-        const result = await verifyToken.json();
-        // Update state variables
-        setIsLoggedIn(true);
-        setIsLoading(false);
-        setUser(result);
+        if (verifyToken.ok) {
+          const result = await verifyToken.json();
+          // Update state variables
+          setIsLoggedIn(true);
+          setIsLoading(false);
+          setUser(result);
+        } else {
+
+          throw new Error("Authorization failed");
+        }
       } catch (error) {
+        console.log("Request bad");
         setIsLoggedIn(false);
         setIsLoading(false);
         setUser(null);

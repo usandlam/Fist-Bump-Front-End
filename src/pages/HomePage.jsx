@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 
 import gsap from "gsap";
 
@@ -33,7 +33,6 @@ function HomePage() {
 
   const postABump = async (latitude, longitude) => {
     const requestBody = { latitude, longitude };
-    console.log(requestBody);
     try {
       console.log("attempting bump");
       const tryBump = await fetch(`${API_URL}/dap`, {
@@ -44,7 +43,6 @@ function HomePage() {
         body: JSON.stringify(requestBody),
       });
       const response = await tryBump.json();
-      console.log(response);
       console.log("Bump uploaded w/ coordinates");
     } catch (error) {
       const errorDescription = error.response.message;
@@ -54,15 +52,9 @@ function HomePage() {
 
   const componentDidMount = () => {
     if ("geolocation" in navigator) {
-      console.log("Available");
-
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position);
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
-        console.log("Latitude: ", lat);
-        console.log("Longitude: ", lng);
-
         postABump(lat, lng);
       });
     }
