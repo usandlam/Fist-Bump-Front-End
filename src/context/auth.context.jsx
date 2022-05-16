@@ -41,12 +41,14 @@ function AuthProviderWrapper(props) {
         }
       } catch (error) {
         console.log("Request bad");
+        removeToken();
         setIsLoggedIn(false);
         setIsLoading(false);
         setUser(null);
       }
     } else {
       // If the token is not available (or is removed)
+      removeToken();
       setIsLoggedIn(false);
       setIsLoading(false);
       setUser(null);

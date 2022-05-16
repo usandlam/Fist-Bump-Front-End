@@ -4,6 +4,18 @@ import { AuthContext } from "../context/auth.context";
 
 const API_URL = "http://localhost:5005";
 
+const emojiUnicode = require("emoji-unicode");
+
+//
+
+const regex = /([\u180B-\u180D\uFE00-\uFE0F]|\uDB40[\uDD00-\uDDEF])/g;
+
+const stripVariationSelectors = function (string) {
+  return string.replace(regex, "");
+};
+
+//
+
 function ProfilePage(props) {
   const [tag, setTag] = useState("");
 
@@ -14,15 +26,17 @@ function ProfilePage(props) {
 
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
 
-  const handleTag = (e) => setTag(e.target.value);
+  const handleTag = (e) => {
+    setTag(e.target.value);
+    console.log(stripVariationSelectors(e.target.value));
+  };
 
   const storedToken = localStorage.getItem("authToken");
 
   const handleTagSubmit = async (e) => {
     e.preventDefault();
-    console.log(user);
+
     const requestBody = { tag, owner: user.userId };
-    console.log(requestBody);
     const updateTag = await fetch(`${API_URL}/u/tag`, {
       method: "POST",
       headers: {
@@ -34,7 +48,6 @@ function ProfilePage(props) {
 
     if (updateTag.ok) {
       const reply = await updateTag.json();
-      console.log("post success", reply);
       setTag("");
     }
   };
@@ -54,7 +67,7 @@ function ProfilePage(props) {
               {successMessage}
             </div>
           )}
-          <form onSubmit={handleTagSubmit}>
+          <form onSubmit={handleTagSubmit} acceptCharset="utf-16">
             <label htmlFor="tag">
               URL Shortcut:
               <input

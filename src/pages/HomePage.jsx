@@ -8,6 +8,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const API_URL = "http://localhost:5005/api";
 
+let bumped = false;
+
 function HomePage() {
   const circleRef = useRef(null);
 
@@ -18,12 +20,12 @@ function HomePage() {
           trigger: ".trigger",
           pin: false,
           start: "top top",
-          end: "+=1000",
+          end: "+=500",
           scrub: true,
           markers: false,
           toggleClass: "enable",
           // onLeave: () => gsap.set(".lefthand", { position: "absolute fixed" }),
-          onLeave: () => componentDidMount(),
+          onLeave: () => fistBump(),
         },
       })
       .add("start")
@@ -43,22 +45,37 @@ function HomePage() {
         body: JSON.stringify(requestBody),
       });
       const response = await tryBump.json();
+      bumped = true;
       console.log("Bump uploaded w/ coordinates");
     } catch (error) {
-      const errorDescription = error.response.message;
+      const errorDescription = error;
       console.log(errorDescription);
     }
   };
 
-  const componentDidMount = () => {
+  const ipCheck = async () => {
+    const APICall = await fetch("https://geolocation-db.com/json/");
+    const APIReply = await APICall.json();
+    console.log(APIReply);
+    postABump(APIReply.latitude, APIReply.longitude);
+  };
+
+  const fistBump = () => {
+    console.log(bumped);
+    console.log("bump");
+    if (bumped) return null;
+
     if ("geolocation" in navigator) {
+      console.log("geo");
       navigator.geolocation.getCurrentPosition((position) => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
         postABump(lat, lng);
-      });
+      }, ipCheck);
+    } else {
+      console.log("Not Available");
+      //   ipCheck();
     }
-    console.log("Not Available");
   };
 
   return (
