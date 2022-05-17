@@ -13,6 +13,14 @@ let bumped = false;
 function HomePage() {
   const circleRef = useRef(null);
 
+  const userHeader = () => {
+    if (localStorage.getItem("authToken")) {
+      const sendAs = localStorage.getItem("authToken");
+      return `Bearer ${sendAs}`;
+    }
+    return ``;
+  };
+
   useEffect(() => {
     const tl = gsap
       .timeline({
@@ -20,7 +28,7 @@ function HomePage() {
           trigger: ".trigger",
           pin: false,
           start: "top top",
-          end: "+=500",
+          end: "+=650",
           scrub: true,
           markers: false,
           toggleClass: "enable",
@@ -29,57 +37,49 @@ function HomePage() {
         },
       })
       .add("start")
-      .to(".lefthand", { xPercent: 250, duration: 4 }, "start")
-      .to(".righthand", { xPercent: -250, duration: 4 }, "start");
+      .to(".lefthand", { xPercent: 250, duration: 3 }, "start")
+      .to(".righthand", { xPercent: -250, duration: 3 }, "start");
   }, []);
 
   const postABump = async (latitude, longitude) => {
     const requestBody = { latitude, longitude };
     try {
-      console.log("attempting bump");
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: userHeader(),
+      };
       const tryBump = await fetch(`${API_URL}/dap`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify(requestBody),
       });
       const response = await tryBump.json();
       bumped = true;
-      console.log("Bump uploaded w/ coordinates");
     } catch (error) {
       const errorDescription = error;
-      console.log(errorDescription);
     }
   };
 
   const ipCheck = async () => {
     const APICall = await fetch("https://geolocation-db.com/json/");
     const APIReply = await APICall.json();
-    console.log(APIReply);
     postABump(APIReply.latitude, APIReply.longitude);
   };
 
   const fistBump = () => {
-    console.log(bumped);
-    console.log("bump");
     if (bumped) return null;
 
     if ("geolocation" in navigator) {
-      console.log("geo");
       navigator.geolocation.getCurrentPosition((position) => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
         postABump(lat, lng);
       }, ipCheck);
-    } else {
-      console.log("Not Available");
-      //   ipCheck();
     }
   };
 
   return (
-    <div className="container text-center">
+    <div className="container main text-center">
       <h1>Scroll down to bump!</h1>
       <div className="trigger">
         <div className="hand-container">

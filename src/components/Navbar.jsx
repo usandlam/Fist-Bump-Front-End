@@ -1,8 +1,22 @@
 import { Link } from "react-router-dom";
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 
+import LoginPage from "../pages/LoginPage";
+
 function Navbar() {
+  const [showLogin, setShowLogin] = useState(false);
+
+  const handleCloseLogin = (e) => {
+    // e.target.focus();
+    document.querySelector(".modal").focus();
+    setShowLogin(false);
+  };
+
+  const handleShowLogin = (e) => {
+    setShowLogin(true);
+  };
+
   // Subscribe to the AuthContext to gain access to
   // the values from AuthContext.Provider `value` prop
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext); // <== ADD
@@ -64,7 +78,7 @@ function Navbar() {
               Logout
             </button>
 
-            <Link className="btn btn-outline-info" to="/you">
+            <Link className="btn btn-outline-info" to="/profile">
               Profile
             </Link>
 
@@ -80,8 +94,48 @@ function Navbar() {
             <Link className="btn btn-outline-info" to="/login">
               Login
             </Link>
+            <button
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target=".modal"
+              className="btn btn-outline-info"
+              to="/login"
+            >
+              Login Modal
+            </button>
           </>
         )}
+      </div>
+      <div className="modal" tabIndex="-1">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Modal title</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              />
+            </div>
+            <div className="modal-body">
+              <p>Modal body text goes here.</p>
+              <LoginPage />
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" className="btn btn-primary">
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

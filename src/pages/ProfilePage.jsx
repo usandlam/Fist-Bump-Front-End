@@ -4,20 +4,13 @@ import { AuthContext } from "../context/auth.context";
 
 const API_URL = "http://localhost:5005";
 
-const emojiUnicode = require("emoji-unicode");
+// const emojiUnicode = require("emoji-unicode");
 
-//
-
-const regex = /([\u180B-\u180D\uFE00-\uFE0F]|\uDB40[\uDD00-\uDDEF])/g;
-
-const stripVariationSelectors = function (string) {
-  return string.replace(regex, "");
-};
-
-//
+const cleanEmoji = require("../scripts/VariationSelectors");
 
 function ProfilePage(props) {
   const [tag, setTag] = useState("");
+  const [tagline, setTagline] = useState("");
 
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [successMessage, setSuccessMessage] = useState(undefined);
@@ -28,8 +21,10 @@ function ProfilePage(props) {
 
   const handleTag = (e) => {
     setTag(e.target.value);
-    console.log(stripVariationSelectors(e.target.value));
+    console.log(cleanEmoji(e.target.value));
   };
+
+  const handleTagline = (e) => setTagline(e.target.value);
 
   const storedToken = localStorage.getItem("authToken");
 
@@ -52,6 +47,26 @@ function ProfilePage(props) {
     }
   };
 
+  const handleTaglineSubmit = async (e) => {
+    e.preventDefault();
+    const requestBody = { tagline, owner: user.userId };
+    const updateTagline = await fetch(`${API_URL}/u/tagline`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${storedToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (updateTagline.ok) {
+      const reply = await updateTagline.json();
+      setTagline(reply.newTagline);
+      // success
+      //   setTagline("");
+    }
+  };
+
   return (
     <div className="container profile-page">
       <div className="row">
@@ -67,7 +82,7 @@ function ProfilePage(props) {
               {successMessage}
             </div>
           )}
-          <form onSubmit={handleTagSubmit} acceptCharset="utf-16">
+          <form onSubmit={handleTagSubmit}>
             <label htmlFor="tag">
               URL Shortcut:
               <input
@@ -79,7 +94,22 @@ function ProfilePage(props) {
               />
             </label>
             <button className="btn btn-primary" type="submit">
-              Submit
+              Update URL
+            </button>
+          </form>
+          <form onSubmit={handleTaglineSubmit}>
+            <label htmlFor="tagline">
+              Tagline:
+              <input
+                type="text"
+                name="tagline"
+                id="tagline"
+                value={tagline}
+                onChange={handleTagline}
+              />
+            </label>
+            <button className="btn btn-primary" type="submit">
+              Update Tagline
             </button>
           </form>
         </div>
