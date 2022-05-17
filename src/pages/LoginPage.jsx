@@ -18,6 +18,10 @@ function LoginPage(props) {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
+    const loginModal = bootstrap.Modal.getInstance(
+      document.getElementById("loginModal")
+    );
+
     const requestBody = { username, password };
     try {
       //   console.log("attempting login");
@@ -34,7 +38,8 @@ function LoginPage(props) {
         //   console.log("JWT token", response.authToken);
         storeToken(response.authToken);
         authenticateUser();
-        navigate("/");
+        loginModal.hide();
+        // navigate("/");
       } else {
         const error = await tryLogin.json();
         throw new Error(error.message);
@@ -47,44 +52,42 @@ function LoginPage(props) {
 
   return (
     <div className="col LoginPage">
-      <h1>Login</h1>
+      {/* <h1>Login</h1> */}
       {errorMessage && (
         <div className="alert alert-primary" role="alert">
           {errorMessage}
         </div>
       )}
-      <form onSubmit={handleLoginSubmit}>
-        <div className="formGroup">
-          <label htmlFor="username">
+      <form id="login-form" onSubmit={handleLoginSubmit}>
+        <div className="formGroup mb-3">
+          <label htmlFor="usernameInput">
             Username:
             <input
               type="text"
               name="username"
-              id="username"
+              id="usernameInput"
               value={username}
               onChange={handleUsername}
             />
           </label>
         </div>
-        <div className="formGroup">
-          <label htmlFor="password">
+        <div className="formGroup mb-3">
+          <label htmlFor="passwordInput">
             Password:
             <input
               type="password"
               name="password"
-              id="password"
+              id="passwordInput"
               autoComplete="on"
               value={password}
               onChange={handlePassword}
             />
           </label>
         </div>
-        <button className="btn btn-primary" type="submit">
+        {/* <button className="btn btn-primary" type="submit">
           Login
-        </button>
+        </button> */}
       </form>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-
       <p>Don&apos;t have an account yet?</p>
       <Link to="/signup"> Sign Up</Link>
     </div>

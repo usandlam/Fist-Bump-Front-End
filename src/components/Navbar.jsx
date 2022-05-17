@@ -3,6 +3,7 @@ import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 
 import LoginPage from "../pages/LoginPage";
+import SignupPage from "../pages/SignupPage";
 
 function Navbar() {
   const [showLogin, setShowLogin] = useState(false);
@@ -10,6 +11,7 @@ function Navbar() {
   const handleCloseLogin = (e) => {
     // e.target.focus();
     document.querySelector(".modal").focus();
+
     setShowLogin(false);
   };
 
@@ -62,7 +64,11 @@ function Navbar() {
           <i className="fa fa-diamond" />{" "}
         </a>
       </nav>
-
+      {isLoggedIn && (
+        <div className="col">
+          <span>Welcome back, {user && user.username}</span>
+        </div>
+      )}
       <div className="col simple-nav d-flex align-items-center justify-content-evenly pt-1">
         <Link className="btn btn-outline-info" to="/">
           Home
@@ -81,36 +87,40 @@ function Navbar() {
             <Link className="btn btn-outline-info" to="/profile">
               Profile
             </Link>
-
-            <span>Hello {user && user.username}</span>
           </>
         )}
 
         {!isLoggedIn && (
           <>
-            <Link className="btn btn-outline-info" to="/signup">
+            {/* <Link className="btn btn-outline-info" to="/signup">
               Sign Up
-            </Link>
-            <Link className="btn btn-outline-info" to="/login">
-              Login
-            </Link>
+            </Link> */}
             <button
               type="button"
               data-bs-toggle="modal"
-              data-bs-target=".modal"
+              data-bs-target="#signupModal"
+              className="btn btn-outline-info"
+              to="/signup"
+            >
+              Signup
+            </button>
+            <button
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#loginModal"
               className="btn btn-outline-info"
               to="/login"
             >
-              Login Modal
+              Login
             </button>
           </>
         )}
       </div>
-      <div className="modal" tabIndex="-1">
+      <div className="modal" id="loginModal" tabIndex="-1">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title">Modal title</h5>
+              <h5 className="modal-title">Login</h5>
               <button
                 type="button"
                 className="btn-close"
@@ -119,7 +129,6 @@ function Navbar() {
               />
             </div>
             <div className="modal-body">
-              <p>Modal body text goes here.</p>
               <LoginPage />
             </div>
             <div className="modal-footer">
@@ -130,8 +139,46 @@ function Navbar() {
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary">
-                Save changes
+              <button
+                type="submit"
+                form="login-form"
+                className="btn btn-primary"
+              >
+                Login
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="modal" id="signupModal" tabIndex="-1">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Signup</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              />
+            </div>
+            <div className="modal-body">
+              <SignupPage />
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="submit"
+                form="signup-form"
+                className="btn btn-primary"
+              >
+                Signup
               </button>
             </div>
           </div>

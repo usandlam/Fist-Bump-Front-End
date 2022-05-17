@@ -18,6 +18,13 @@ function LoginPage(props) {
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
+    const signupModal = bootstrap.Modal.getInstance(
+      document.getElementById("signupModal")
+    );
+    const loginModal = bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("loginModal")
+    );
+
     const requestBody = { username, password };
     try {
       const trySignup = await fetch(`${API_URL}/auth/signup`, {
@@ -34,29 +41,14 @@ function LoginPage(props) {
       } else {
         console.log("success");
       }
-      //   console.log();
 
-      //   const response = await trySignup
-      //     .json()
-      //     .catch((err) => setErrorMessage(err));
-      //   console.log(response);
-      //   console.log(trySignup);
-      //   if (trySignup.error) console.log(trySignup.error.message);
-      //   const { status, response } = await trySignup;
-
-      /*
-      const status = await trySignup.status;
-      const response = await trySignup.json();
-      //   if()
-      if(status === 200)
-        return true
-      else 
-        throw error()
-        */
       if (trySignup.ok) {
         setErrorMessage("Succesfully created new user! Redirecting to login..");
+
+        signupModal.hide();
+        loginModal.show();
       }
-      navigate("/login");
+      //   navigate("/login");
     } catch (error) {
       //   const errorDescription = error;
       setErrorMessage(error.toString());
@@ -65,14 +57,14 @@ function LoginPage(props) {
 
   return (
     <div className="col SignupPage">
-      <h1>Signup</h1>
+      {/* <h1>Signup</h1> */}
       {errorMessage && (
         <div className="alert alert-primary" role="alert">
           {errorMessage}
         </div>
       )}
-      <form onSubmit={handleSignupSubmit}>
-        <div className="formGroup">
+      <form id="signup-form" onSubmit={handleSignupSubmit}>
+        <div className="formGroup mb-3">
           <label htmlFor="username">
             Username:
             <input
@@ -84,7 +76,7 @@ function LoginPage(props) {
             />
           </label>
         </div>
-        <div className="formGroup">
+        <div className="formGroup mb-3">
           <label htmlFor="password">
             Password:
             <input
@@ -97,9 +89,9 @@ function LoginPage(props) {
             />
           </label>
         </div>
-        <button className="btn btn-primary" type="submit">
+        {/* <button className="btn btn-primary" type="submit">
           Signup
-        </button>
+        </button> */}
       </form>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
 

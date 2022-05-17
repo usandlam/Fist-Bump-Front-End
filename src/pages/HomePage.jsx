@@ -83,8 +83,8 @@ function HomePage() {
       <h1>Scroll down to bump!</h1>
       <div className="trigger">
         <div className="hand-container">
-          <div className="lefthand" />
-          <div className="righthand" />
+          <div className="fist lefthand" />
+          <div className="fist righthand" />
         </div>
       </div>
 
