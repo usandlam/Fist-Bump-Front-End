@@ -10,6 +10,8 @@
 body { 
   font-family: "Signika Negative", sans-serif; 
   font-weight: 300;
+  background-color: #453750;
+  color: white;
   /* height: 300vh; */
 }
 .main{
@@ -27,6 +29,9 @@ body {
   /* padding: 20px; */
 }
 
+.modal{
+  color: black;
+}
 
 .fist {
   background-size: 15vw; 

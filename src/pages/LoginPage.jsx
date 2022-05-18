@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
@@ -45,7 +46,6 @@ function LoginPage(props) {
         throw new Error(error.message);
       }
     } catch (error) {
-      console.log(error);
       setErrorMessage(error.toString());
     }
   };

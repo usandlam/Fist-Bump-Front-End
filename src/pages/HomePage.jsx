@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-undef */
 import React, { useRef, useEffect } from "react";
 
 import gsap from "gsap";
@@ -76,6 +78,7 @@ function HomePage() {
         postABump(lat, lng);
       }, ipCheck);
     }
+    return null;
   };
 
   return (

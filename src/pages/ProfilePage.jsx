@@ -21,11 +21,11 @@ function ProfilePage(props) {
 
   const handleTag = (e) => {
     setTag(e.target.value);
-    console.log(cleanEmoji(e.target.value));
   };
 
   const handleTagline = (e) => setTagline(e.target.value);
 
+  // eslint-disable-next-line no-undef
   const storedToken = localStorage.getItem("authToken");
 
   const handleTagSubmit = async (e) => {

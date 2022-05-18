@@ -1,10 +1,11 @@
+/* eslint-disable no-undef */
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 
 const API_URL = "http://localhost:5005";
 
-function LoginPage(props) {
+function SignupPage(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
@@ -38,8 +39,6 @@ function LoginPage(props) {
       if (!trySignup.ok) {
         const error = await trySignup.json();
         throw new Error(error.message);
-      } else {
-        console.log("success");
       }
 
       if (trySignup.ok) {
@@ -101,4 +100,4 @@ function LoginPage(props) {
   );
 }
 
-export default LoginPage;
+export default SignupPage;

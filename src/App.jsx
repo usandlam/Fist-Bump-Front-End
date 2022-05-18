@@ -8,15 +8,14 @@ import ProfilePage from "./pages/ProfilePage";
 import SignupPage from "./pages/SignupPage";
 import UserPage from "./pages/UserPage";
 import ResolveUser from "./components/ResolveUser";
+import StatsPage from "./pages/StatsPage";
 
 import IsPrivate from "./components/IsPrivate";
 
 import IsAnon from "./components/IsAnon";
 
+// eslint-disable-next-line no-undef
 const subDir = window.location.host.split(".")[0] === "g";
-
-// if(subDir && )
-// strip subdomain?
 
 function App() {
   return (
@@ -53,6 +52,14 @@ function App() {
           element={
             <IsPrivate>
               <UserPage />
+            </IsPrivate>
+          }
+        />
+        <Route
+          path="/my-daps"
+          element={
+            <IsPrivate>
+              <StatsPage />
             </IsPrivate>
           }
         />

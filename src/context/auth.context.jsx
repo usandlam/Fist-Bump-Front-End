@@ -1,3 +1,6 @@
+/* eslint-disable react/jsx-no-constructed-context-values */
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-undef */
 import React, { useState, useEffect } from "react";
 
 const API_URL = "http://localhost:5005";
@@ -8,6 +11,8 @@ function AuthProviderWrapper(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
+
+  const { children } = props;
 
   const storeToken = (token) => {
     //  <==  ADD
@@ -40,7 +45,6 @@ function AuthProviderWrapper(props) {
           throw new Error("Authorization failed");
         }
       } catch (error) {
-        console.log("Request bad");
         removeToken();
         setIsLoggedIn(false);
         setIsLoading(false);
@@ -90,7 +94,7 @@ function AuthProviderWrapper(props) {
         logOutUser,
       }}
     >
-      {props.children}
+      {children}
     </AuthContext.Provider>
   );
 }

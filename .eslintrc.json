@@ -3,6 +3,8 @@
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": "error",
-    "no-unused-vars":"warn"
+    "no-unused-vars":"off",
+    "react/prop-types": "off",
+    "no-underscore-dangle": "off"
   }
 }

@@ -7,6 +7,7 @@ const cleanEmoji = require("../scripts/VariationSelectors");
 
 const API_URL = "http://localhost:5005/u";
 
+// eslint-disable-next-line no-undef
 const path = window.location.host.split(".")[1];
 
 function ResolveUser({ children }) {
@@ -14,8 +15,6 @@ function ResolveUser({ children }) {
   const [foundUser, setFoundUser] = useState([]);
 
   const { tagId } = useParams();
-
-  console.log(tagId);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,6 +24,7 @@ function ResolveUser({ children }) {
       setFetching(false);
       // eslint-disable-next-line no-underscore-dangle
       setFoundUser(response.message.owner._Id);
+      // eslint-disable-next-line no-undef
       window.location = `http://${path}/to/${response.message.owner._id}`;
     };
     fetchData();
