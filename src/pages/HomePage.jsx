@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 import React, { useRef, useEffect } from "react";
 
-import gsap from "gsap";
+import { gsap } from "gsap";
 
 import ScrollTrigger from "gsap/ScrollTrigger";
 
@@ -23,6 +23,9 @@ function HomePage() {
     return ``;
   };
 
+  const lHandRef = useRef();
+  const rHandRef = useRef();
+
   useEffect(() => {
     const tl = gsap
       .timeline({
@@ -39,8 +42,8 @@ function HomePage() {
         },
       })
       .add("start")
-      .to(".lefthand", { xPercent: 250, duration: 3 }, "start")
-      .to(".righthand", { xPercent: -250, duration: 3 }, "start");
+      .to(lHandRef.current, { xPercent: 250, duration: 3 }, "start")
+      .to(rHandRef.current, { xPercent: -250, duration: 3 }, "start");
   }, []);
 
   const postABump = async (latitude, longitude) => {
@@ -86,8 +89,8 @@ function HomePage() {
       <h1>Scroll down to bump!</h1>
       <div className="trigger">
         <div className="hand-container">
-          <div className="fist lefthand" />
-          <div className="fist righthand" />
+          <div className="fist lefthand" ref={lHandRef} />
+          <div className="fist righthand" ref={rHandRef} />
         </div>
       </div>
 
