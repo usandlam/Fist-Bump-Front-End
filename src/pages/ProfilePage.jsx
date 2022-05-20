@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 
@@ -15,9 +15,16 @@ function ProfilePage(props) {
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [successMessage, setSuccessMessage] = useState(undefined);
 
+  const [foundTag, setFoundTag] = useState([]);
+  const [foundTagline, setFoundTagline] = useState([]);
+
   const navigate = useNavigate();
 
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
+
+  const [fetching, setFetching] = useState(true);
+
+  const [infoBlank, setInfoBlank] = useState(true);
 
   const handleTag = (e) => {
     setTag(e.target.value);
@@ -27,6 +34,23 @@ function ProfilePage(props) {
 
   // eslint-disable-next-line no-undef
   const storedToken = localStorage.getItem("authToken");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      //   const id = user.userId;
+      const tryLookup = await fetch(`${API_URL}/u/my/info`, {
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const response = await tryLookup.json();
+      setFoundTag(response.tagline);
+      setFoundTagline(response.tagline);
+      setFetching(false);
+    };
+    fetchData();
+  }, []);
 
   const handleTagSubmit = async (e) => {
     e.preventDefault();
@@ -43,6 +67,7 @@ function ProfilePage(props) {
 
     if (updateTag.ok) {
       const reply = await updateTag.json();
+      setSuccessMessage("Successfully updated!");
       setTag("");
     }
   };
@@ -62,8 +87,11 @@ function ProfilePage(props) {
     if (updateTagline.ok) {
       const reply = await updateTagline.json();
       setTagline(reply.newTagline);
-      // success
+      setInfoBlank(false);
+      setSuccessMessage("Successfully updated!");
       //   setTagline("");
+    } else {
+      setErrorMessage(updateTagline.message);
     }
   };
 
@@ -71,7 +99,7 @@ function ProfilePage(props) {
     <div className="container profile-page">
       <div className="row">
         <div className="col">
-          <p>What the</p>
+          <p />
           {errorMessage && (
             <div className="alert alert-primary" role="alert">
               {errorMessage}
@@ -93,7 +121,8 @@ function ProfilePage(props) {
                 onChange={handleTag}
               />
             </label>
-            <button className="btn btn-primary" type="submit">
+            {/* {!fetching && <p>Your current shortcut is {foundTag} </p>} */}
+            <button className="btn btn-primary m-3" type="submit">
               Update URL
             </button>
           </form>
@@ -108,13 +137,20 @@ function ProfilePage(props) {
                 onChange={handleTagline}
               />
             </label>
-            <button className="btn btn-primary" type="submit">
+            {/* {infoBlank && !fetching ? (
+              <p>Your current shortcut is {foundTagline} </p>
+            ) : (
+              ""
+            )} */}
+            <button className="btn btn-primary m-3" type="submit">
               Update Tagline
             </button>
           </form>
         </div>
         <div className="col">
-          <p>What the</p>
+          <p>
+            <Link to="/my-daps">Check out your latest bumps! </Link>
+          </p>
         </div>
       </div>
     </div>

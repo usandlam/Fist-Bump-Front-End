@@ -7,6 +7,7 @@ import App from "./App";
 
 import { AuthProviderWrapper } from "./context/auth.context";
 
+// eslint-disable-next-line no-undef
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Router>
