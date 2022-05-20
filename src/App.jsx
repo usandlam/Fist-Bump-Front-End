@@ -63,6 +63,8 @@ function App() {
             </IsPrivate>
           }
         />
+        <Route path="/f/:tagId" element={<ResolveUser />} />
+        <Route path="/d/:tagId" element={<UserPage />} />
         {subDir && (
           <>
             <Route path="/:tagId" element={<UserPage />} />

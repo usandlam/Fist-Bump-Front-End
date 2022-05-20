@@ -1,6 +1,7 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-undef */
 import React, { useRef, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import { gsap } from "gsap";
 
@@ -8,7 +9,7 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const API_URL = "http://localhost:5005/api";
+const API_URL = "http://localhost:5005/u/";
 
 let bumped = false;
 
@@ -95,6 +96,11 @@ function HomePage() {
       </div>
 
       <div />
+      <div className="row fixed-bottom">
+        <p>
+          <Link to="/">Curious about the project?</Link>
+        </p>
+      </div>
     </div>
   );
 }

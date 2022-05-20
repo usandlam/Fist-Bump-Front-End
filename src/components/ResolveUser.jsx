@@ -25,7 +25,7 @@ function ResolveUser({ children }) {
       // eslint-disable-next-line no-underscore-dangle
       setFoundUser(response.message.owner._Id);
       // eslint-disable-next-line no-undef
-      window.location = `http://${path}/to/${response.message.owner._id}`;
+      window.location = `https://daps.to/to/${response.message.owner._id}`;
     };
     fetchData();
   }, []);

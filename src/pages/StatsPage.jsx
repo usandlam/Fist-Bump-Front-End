@@ -30,7 +30,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Chart.js Line Chart",
+      text: "Your daps by month",
     },
     color: "rgb(255, 255, 255)",
   },
@@ -43,7 +43,7 @@ export const data = {
   datasets: [
     {
       label: "Your Daps by month",
-      data: [1, 4, 5, 0, 10, 11, 15],
+      data: [1, 1, 3, 0, 1, 15, 0],
       borderColor: "rgb(255, 99, 132)",
       backgroundColor: "rgba(0, 0, 0, 0.5)",
     },
@@ -80,16 +80,14 @@ function StatsPage(props) {
 
   return (
     <div className="container stats-page" id="stats-page">
+      {!fetching && <h1>Recent bumps:</h1>}
       {fetching ? (
         <p>Loading...</p>
       ) : (
         foundDaps.map((dap) => {
           return (
             <div key={dap._id}>
-              <p>
-                {dap.location.type}: {dap.location.coordinates[0]},{" "}
-                {dap.location.coordinates[1]}
-              </p>
+              <p>{new Date(dap.createdAt).toDateString()}</p>
             </div>
           );
         })
